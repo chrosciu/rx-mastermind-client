@@ -11,8 +11,10 @@ public class SessionService {
     private final WebClient webClient;
 
     public Mono<Long> getSessionId() {
-        //TODO: Implement
-        return null;
+        return webClient.post()
+                .uri("/session")
+                .retrieve()
+                .bodyToMono(Long.class);
     }
 
     public Mono<String> getResult(long sessionId, String sample) {
