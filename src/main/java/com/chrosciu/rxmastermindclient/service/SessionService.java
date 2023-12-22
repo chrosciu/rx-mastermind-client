@@ -11,15 +11,25 @@ public class SessionService {
     private final WebClient webClient;
 
     public Mono<Long> getSessionId() {
-        return null;
+        return webClient.post()
+                .uri("/session")
+                .retrieve()
+                .bodyToMono(Long.class);
     }
 
     public Mono<String> getResult(long sessionId, String sample) {
-        return null;
+        return webClient.put()
+                .uri("/session/{sessionId}/{sample}", sessionId, sample)
+                .retrieve()
+                .bodyToMono(String.class)
+                .onErrorReturn("Bad input");
     }
 
     public Mono<Void> destroySession(long sessionId) {
-        return null;
+        return webClient.delete()
+                .uri("/session/{sessionId}", sessionId)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 
 
