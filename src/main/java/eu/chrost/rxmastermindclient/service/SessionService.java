@@ -18,12 +18,17 @@ public class SessionService {
     }
 
     public Mono<String> getResult(long sessionId, String sample) {
-        //TODO: Implement
-        return null;
+        return webClient.put()
+                .uri("/session/{sessionId}/{sample}", sessionId, sample)
+                .retrieve()
+                .bodyToMono(String.class)
+                .onErrorReturn("Bad input");
     }
 
     public Mono<Void> destroySession(long sessionId) {
-        //TODO: Implement
-        return null;
+        return webClient.delete()
+                .uri("/session/{sessionId}", sessionId)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 }
