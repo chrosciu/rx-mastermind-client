@@ -1,6 +1,7 @@
 mastermind:
     server:
         url: http://localhost:8080
+    timeout-in-seconds: 10
 spring:
     main:
         web-application-type: none
