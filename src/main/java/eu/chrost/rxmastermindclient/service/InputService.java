@@ -11,13 +11,15 @@ import java.util.Scanner;
 @Slf4j
 public class InputService {
     public Flux<String> getLines(InputStream inputStream) {
-        return Flux.using(() -> new Scanner(inputStream),
+        return Flux.using(
+                () -> new Scanner(inputStream),
                 this::fromScanner,
-                Scanner::close);
+                Scanner::close
+        );
     }
 
     private Flux<String> fromScanner(Scanner scanner) {
-        return Flux.create(sink -> {
+        return Flux.<String>create(sink -> {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 sink.next(line);

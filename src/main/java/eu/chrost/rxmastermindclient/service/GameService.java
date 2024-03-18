@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 @Service
 @RequiredArgsConstructor
@@ -15,17 +17,35 @@ public class GameService {
     private static final String SUCCESS_RESULT = "40";
 
     public Flux<String> getResults() {
-        return sessionService.getSessionId()
-                .flatMapMany(
-                        id -> inputService.getLines(System.in)
-                                .subscribeOn(Schedulers.boundedElastic())
-                                .flatMap(sample -> sessionService.getResult(id, sample))
-                                .takeUntil(SUCCESS_RESULT::equals)
-                                .doOnSubscribe(s -> System.out.println("Please enter samples: "))
-                                .doOnComplete(() -> System.out.println("Game finished"))
-                                .concatWith(sessionService.destroySession(id)
-                                        .then(Mono.empty())
+        return Mono.just("Creating session...")
+                .concatWith(sessionService.getSessionId().flatMapMany(id ->
+                        Mono.just("Session created, please start entering samples:")
+                                .concatWith(
+                                        inputService.getLines(System.in)
+                                                .subscribeOn(Schedulers.boundedElastic())
+                                                .flatMap(sample ->
+                                                        sessionService.getResult(id, sample)
+                                                                .publishOn(Schedulers.boundedElastic())
+                                                                .map(result ->
+                                                                        Tuples.of(
+                                                                                String.format("Result for sample %s: %s", sample, result),
+                                                                                SUCCESS_RESULT.equals(result)
+                                                                        )
+                                                                )
+                                                )
+                                                .takeUntil(Tuple2::getT2)
+                                                .flatMap(t ->
+                                                        Flux.just(t.getT1())
+                                                                .concatWith(t.getT2() ?
+                                                                        Mono.just("Congratulations, you have guessed the code!") :
+                                                                        Mono.empty())
+                                                )
                                 )
-                );
+                                .concatWith(Mono.just("Game finished, destroying session..."))
+                                .concatWith(
+                                        sessionService.destroySession(id)
+                                                .then(Mono.just("Session destroyed"))
+                                )
+                ));
     }
 }

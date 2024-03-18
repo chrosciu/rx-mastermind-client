@@ -22,7 +22,7 @@ public class GameRunner implements CommandLineRunner {
         gameService.getResults()
                 .doFinally(signalType -> countDownLatch.countDown())
                 .subscribe(
-                        r -> System.out.println("Result: " + r),
+                        System.out::println,
                         e -> log.warn("Error:", e)
                 );
         countDownLatch.await();
