@@ -17,7 +17,7 @@ public class GameService {
     public Flux<String> getResults() {
         return sessionService.getSessionId()
                 .flatMapMany(
-                        id -> inputService.getLines()
+                        id -> inputService.getLines(System.in)
                                 .subscribeOn(Schedulers.boundedElastic())
                                 .flatMap(sample -> sessionService.getResult(id, sample))
                                 .takeUntil(SUCCESS_RESULT::equals)

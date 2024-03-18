@@ -33,7 +33,7 @@ public class GameServiceTest {
         String[] lines = new String[]{"123", "456"};
         when(sessionService.getSessionId()).thenReturn(Mono.just(someSessionId));
         when(sessionService.destroySession(someSessionId)).thenReturn(Mono.empty());
-        when(inputService.getLines()).thenReturn(Flux.just(lines));
+        when(inputService.getLines(System.in)).thenReturn(Flux.just(lines));
         when(sessionService.getResult(someSessionId, lines[0])).thenReturn(Mono.just("20"));
         when(sessionService.getResult(someSessionId, lines[1])).thenReturn(Mono.just("11"));
 
@@ -54,7 +54,7 @@ public class GameServiceTest {
         when(sessionService.getSessionId()).thenReturn(Mono.just(someSessionId));
         when(sessionService.destroySession(someSessionId)).thenReturn(Mono.empty());
         TestPublisher<String> publisher = TestPublisher.createCold();
-        when(inputService.getLines()).thenReturn(publisher.flux());
+        when(inputService.getLines(System.in)).thenReturn(publisher.flux());
         when(sessionService.getResult(someSessionId, lines[0])).thenReturn(Mono.just("20"));
 
         //when

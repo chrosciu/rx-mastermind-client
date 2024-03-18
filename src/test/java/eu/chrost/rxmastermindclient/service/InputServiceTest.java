@@ -16,9 +16,9 @@ public class InputServiceTest {
     public void shouldBuildFluxFromGivenInputStream() {
         //given
         InputStream inputStream = buildMultilineInputStream(Arrays.asList("abc", "def", ""));
-        InputService inputService = new InputService(inputStream);
+        InputService inputService = new InputService();
         //when
-        Flux<String> lines = inputService.getLines();
+        Flux<String> lines = inputService.getLines(inputStream);
         //then
         StepVerifier.create(lines)
                 .expectNext("abc")
