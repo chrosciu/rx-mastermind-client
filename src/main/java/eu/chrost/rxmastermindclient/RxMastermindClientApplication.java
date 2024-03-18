@@ -1,4 +1,4 @@
-package com.chrosciu.rxmastermindclient;
+package eu.chrost.rxmastermindclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

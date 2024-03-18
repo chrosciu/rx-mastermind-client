@@ -1,4 +1,4 @@
-package com.chrosciu.rxmastermindclient.service;
+package eu.chrost.rxmastermindclient.service;
 
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;

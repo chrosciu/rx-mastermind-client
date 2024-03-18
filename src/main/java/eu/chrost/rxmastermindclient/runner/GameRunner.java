@@ -1,6 +1,6 @@
-package com.chrosciu.rxmastermindclient.runner;
+package eu.chrost.rxmastermindclient.runner;
 
-import com.chrosciu.rxmastermindclient.service.GameService;
+import eu.chrost.rxmastermindclient.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

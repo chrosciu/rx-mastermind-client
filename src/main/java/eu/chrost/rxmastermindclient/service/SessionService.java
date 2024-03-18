@@ -1,4 +1,4 @@
-package com.chrosciu.rxmastermindclient.service;
+package eu.chrost.rxmastermindclient.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

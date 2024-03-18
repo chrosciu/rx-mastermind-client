@@ -1,6 +1,6 @@
-package com.chrosciu.rxmastermindclient.config;
+package eu.chrost.rxmastermindclient.config;
 
-import com.chrosciu.rxmastermindclient.service.InputService;
+import eu.chrost.rxmastermindclient.service.InputService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
